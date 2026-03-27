@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# IMDb cache (re-downloaded each run)
+/tmp/imdb_cache/
+
+# Generated data (committed by CI only)
+# Uncomment the line below if you want to gitignore data/ locally
+# data/
