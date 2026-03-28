@@ -21,7 +21,7 @@ from pathlib import Path
 # ── Config ────────────────────────────────────────────────────────────────────
 TOP_N_SHOWS      = 10_000
 MIN_VOTES        = 10          # minimum votes for an episode to be included
-IMDB_BASE        = "https://datasets.imdb.com/dataset"
+IMDB_BASE        = "https://datasets.imdbws.com"
 DATASETS         = ["title.basics", "title.episode", "title.ratings"]
 CACHE_DIR        = Path("/tmp/imdb_cache")
 OUTPUT_DIR       = Path("data")
@@ -42,7 +42,8 @@ def download_dataset(name: str) -> Path:
     if not tsv_path.exists():
         url = f"{IMDB_BASE}/{name}.tsv.gz"
         log(f"Downloading {url} ...")
-        with urllib.request.urlopen(url) as resp, open(gz_path, "wb") as f:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req) as resp, open(gz_path, "wb") as f:
             shutil.copyfileobj(resp, f)
         log(f"Decompressing {name} ...")
         with gzip.open(gz_path, "rb") as gz, open(tsv_path, "wb") as out:
